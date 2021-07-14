@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <button onclick="writeByContent()">글쓰기</button>
+
+    <script>
+        // async : 비동기적으로 코드를 만든다 (일에 순서가없도록한다.)
+        async function writeByContent() {
+         
+            let writeDto = {
+                content: "글쓰기 맞는가맞는가"
+            }
+
+            // fetch함수는 CPU에서 받은 일은 메모리에 할당하고 따로 분할에서 일을한다.
+            // fetch함수는 'fetch('서버주소')' 는 웹 브라우저에게 '이 서버주소로 요청해줘' 라는 의미이고, 뒤에 .then이 붙으면 '요청 끝나고나서 이 할일을 해줘!' 라는 것.
+            // 그런데 중요한 것은 여기에 있다...! 웹브라우저에게 이서버로 요청해달라고 이벤트루프를 날릴때 null값이 나오는것이다.하지만 규칙은 null을 처음에나오지만 던진게 끝나고나서
+            // 무조건적으로 다른일을 처리할 메모리처리를 할당받는다는 목적이다.
+            // 비동기식으로 받으면 r1은 response를 받는다
+            let r1 = await fetch("http://192.168.3.101:8000/post",{
+                method: "put",
+                body: JSON.stringify(writeDto),
+                headers : {
+                    "Content-Type" : "application/json; charset=utf-8"
+                }
+            }); 
+            let r2= await r1.json();
+            console.log(r2);
+        }
+
+     
+        console.log("나무그리기");
+        console.log("태양그리기");
+        console.log("바다그리기");
+
+    </script>
+</body>
+
+</html>
